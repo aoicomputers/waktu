@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  background-color:#000;
+  color:#fff;
+  font-size:32px;
+  text-align:center;
+  font-family:Arial;
+}
+</style>
+<script>
+setInterval(function() {loadDay()}, 1000);
+setInterval(function() {loadTime()}, 1000);
+function loadDay() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var date = new Date(this.responseText);
+      var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      var formattedDate = date.toLocaleDateString('id-ID', options);
+      document.getElementById('day').innerHTML = formattedDate;
+    }
+  };
+  xhttp.open('GET', 'id.pool.ntp.org', true);
+  xhttp.send();
+}
+
+function loadTime() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var time = new Date(this.responseText);
+      var formattedTime = time.toLocaleTimeString('id-ID', {hour12: false});
+      document.getElementById('time').innerHTML = formattedTime;
+    }
+  };
+  xhttp.open('GET', 'id.pool.ntp.org', true);
+  xhttp.send();
+}
+</script>
+</head>
+<body>
+  <br>
+  <h1><br><br></h1>
+  <br>
+  <h2></h2>
+
+  <p id='day'>Loading day...</p>
+  <p id='time'>Loading time...</p>
+</body>
+</html>
